@@ -157,6 +157,7 @@ module Gabba
     # action    -
     # label     -
     # value     -
+    # page      -
     # utmni     -
     # utmhid    -
     #
@@ -165,14 +166,14 @@ module Gabba
     #   g = Gabba::Gabba.new("UT-1234", "mydomain.com")
     #   g.event("Videos", "Play", "ID", "123", true)
     #
-    def event(category, action, label = nil, value = nil, utmni = false, utmhid = random_id)
+    def event(category, action, label = nil, value = nil, page = nil, utmni = false, utmhid = random_id)
       check_account_params
-      hey(event_params(category, action, label, value, utmni, utmhid))
+      hey(event_params(category, action, label, value, page, utmni, utmhid))
     end
 
     # Public: Renders event params data in the format needed for GA
     # Called before actually sending the data along to GA in Gabba#event
-    def event_params(category, action, label = nil, value = nil, utmni = false, utmhid = false)
+    def event_params(category, action, label = nil, value = nil, page = '/', utmni = false, utmhid = false)
       raise ArgumentError.new("utmni must be a boolean") if (utmni.class != TrueClass && utmni.class != FalseClass)
       {
         :utmwv => @utmwv,
@@ -187,6 +188,7 @@ module Gabba
         :utmac => @utmac,
         :utmcc => @utmcc || cookie_params,
         :utmr => @utmr,
+        :utmp => page,
         :utmip => @utmip
       }
     end
