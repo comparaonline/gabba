@@ -173,7 +173,7 @@ module Gabba
 
     # Public: Renders event params data in the format needed for GA
     # Called before actually sending the data along to GA in Gabba#event
-    def event_params(category, action, label = nil, value = nil, page = '/', utmni = false, utmhid = false)
+    def event_params(category, action, label = nil, value = nil, page = nil, utmni = false, utmhid = false)
       raise ArgumentError.new("utmni must be a boolean") if (utmni.class != TrueClass && utmni.class != FalseClass)
       {
         :utmwv => @utmwv,
@@ -188,7 +188,7 @@ module Gabba
         :utmac => @utmac,
         :utmcc => @utmcc || cookie_params,
         :utmr => @utmr,
-        :utmp => page,
+        :utmp => (page || '/'),
         :utmip => @utmip
       }
     end
